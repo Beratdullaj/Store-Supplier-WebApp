@@ -8,6 +8,7 @@ namespace StoreSupplier.Models
 {
     public class User
     {
+        public Guid Id { get; set; }
         [Required, MinLength(2, ErrorMessage = "Minimum length is 2")]
         public string Name { get; set; }
 

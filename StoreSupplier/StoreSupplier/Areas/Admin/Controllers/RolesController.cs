@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StoreSupplier.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class RolesController : Controller
     {
@@ -100,7 +100,7 @@ namespace StoreSupplier.Areas.Admin.Controllers
         }
 
         //Get Request /admin/products/delete/id
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var role = await roleManager.FindByIdAsync(id);

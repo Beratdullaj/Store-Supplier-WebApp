@@ -1,0 +1,67 @@
+﻿@model CartViewModel
+
+@{
+    ViewData["Title"] = "Cart Overview";
+}
+
+@if (Model.CartItems.Count > 0)
+{
+    <h1>Cart Overview</h1>
+    <div class="cartWrapper">
+        <div class="cartbg d-none">
+            <h3 class="text-center">Redirecting you to paypal...</h3>
+            <img src="~/images/ajax-loader.gif" />
+        </div>
+        <table class="table">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C2")</td>
+                    <td>@Model.CartItems.Where(x => x.ProductId == item.ProductId).Sum(x => x.Quantity * x.Price).ToString("C2")</td>
+                </tr>
+            }
+            <tr>
+                <td class="text-right" colspan="4">
+                    Grand Total: @Model.GrandTotal.ToString("C2")
+                </td>
+            </tr>
+        </table>
+        <form id="formCard" action="/order/create" method="POST">
+            <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" class="form-control" name="CardNumber" aria-describedby="emailHelp" placeholder="Card Number">
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="number" class="form-control" name="CVV" placeholder="CVV" maxlength="3">
+            </div>
+            <div class="form-group">
+                <label for="expDate">Expire Date</label>
+                <input type="number" class="form-control" name="CardValidDate" placeholder="MM/YYYY">
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" name="City" aria-describedby="emailHelp" placeholder="City">
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" name="Address" aria-describedby="emailHelp" placeholder="Address">
+            </div>
+            <button id="formCardSubmit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+}
+else
+{
+    <h3 class="display-4 text-center">Your cart is empty.</h3>
+}
+
+<partial name="~/Views/Cart/_PaypalPartial.cshtml" for="CartItems" />

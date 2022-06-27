@@ -40,13 +40,13 @@ namespace StoreSupplier.Areas.Admin.Controllers
         //Get admin/users
         public IActionResult Index()
         {
-            return View(userManager.Users.Where(x => x.BranchId != 9).OrderBy(x => x.Name));
+            return View(userManager.Users.Where(x => x.BranchId != 1).OrderBy(x => x.Name));
         }
 
         //Get admin/users/clients
         public IActionResult Clients()
         {
-            return View(userManager.Users.Where(x => x.BranchId == 9).OrderBy(x => x.Name));
+            return View(userManager.Users.Where(x => x.BranchId == 1).OrderBy(x => x.Name));
         }
 
 
