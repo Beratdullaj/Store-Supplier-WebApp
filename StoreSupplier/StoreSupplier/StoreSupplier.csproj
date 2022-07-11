@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20211213183818_ThirdCreate.Designer.cs" />
     <Compile Remove="Migrations\20220109111523_IdentityCreate.cs" />
     <Compile Remove="Migrations\20220109111523_IdentityCreate.Designer.cs" />
+    <Compile Remove="Migrations\20220613212121_Order.cs" />
+    <Compile Remove="Migrations\20220613212121_Order.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
 
 </Project>

@@ -43,7 +43,7 @@
             <tr>
                 <td class="text-right" colspan="4">
                     <a asp-action="Clear" class="btn btn-danger">Clear Cart</a>
-                    <a href="#" class="btn btn-primary checkout">Checkout</a>
+                    <a href="/cart/checkout" class="btn btn-primary checkout">Checkout</a>
                 </td>
             </tr>
         </table>
@@ -55,17 +55,3 @@ else
 }
 
 <partial name="~/Views/Cart/_PaypalPartial.cshtml" for="CartItems" />
-
-@section Scripts {
-    <script>
-        $(function () {
-            $("a.checkout").click(function (e) {
-                e.preventDefault();
-                $("div.cartbg").removeClass("d-none");
-                $.get("/cart/clear", {}, function () {
-                    $("form.paypalform").submit();
-                })
-            });
-        });
-    </script>
-}

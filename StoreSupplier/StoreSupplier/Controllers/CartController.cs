@@ -42,19 +42,22 @@ namespace StoreSupplier.Controllers
             CartItem cartItem = cart.Where(x => x.ProductId == id).FirstOrDefault();
 
             if (cartItem == null)
-            {
-                cart.Add(new CartItem(product));
-            }
-            else
-            {
-                cartItem.Quantity += 1;
-            }
+                {
+                    cart.Add(new CartItem(product));
+                }
+                else
+                {
+                if (product.Stock > cartItem.Quantity)
+                {
+                        cartItem.Quantity += 1;
+                    }
+                }
 
-            HttpContext.Session.SetJson("Cart", cart);
+                HttpContext.Session.SetJson("Cart", cart);
 
-            if (HttpContext.Request.Headers["X-Requested-With"] != "XMLHttpRequest")
-                return RedirectToAction("Index");
-
+                if (HttpContext.Request.Headers["X-Requested-With"] != "XMLHttpRequest")
+                    return RedirectToAction("Index");
+ 
 
             return ViewComponent("SmallCart");
         }
@@ -119,6 +122,18 @@ namespace StoreSupplier.Controllers
                 return Redirect(Request.Headers["Referer"].ToString());
 
             return Ok();
+        }
+
+        public ActionResult Checkout()
+        {
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+            CartViewModel cartVM = new CartViewModel
+            {
+                CartItems = cart,
+                GrandTotal = cart.Sum(x => x.Price * x.Quantity)
+            };
+
+            return View(cartVM);
         }
     }
 }

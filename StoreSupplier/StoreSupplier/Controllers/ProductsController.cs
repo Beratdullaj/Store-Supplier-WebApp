@@ -23,8 +23,6 @@ namespace StoreSupplier.Controllers
         //GET Request products
         public async Task<IActionResult> Index(int p = 1)
         {
-
-
             int pageSize = 6;
             var products = context.Products.OrderByDescending(x => x.Id) 
                                             .Skip((p - 1) * pageSize)
