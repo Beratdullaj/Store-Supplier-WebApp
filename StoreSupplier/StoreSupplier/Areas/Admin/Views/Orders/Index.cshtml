@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Order";
+    List<Product> parts = new List<Product>();
+
+    foreach (var item in Model)
+    {
+        parts.Add(new Product() { Name = item.Product.Name, Stock = item.Quantity });
+    }
+    var grouped = parts.GroupBy(i => i.Name).Select(i => new { ItemId = i.Key, Total = i.Sum(item => item.Stock) });
+
+    var test = grouped.ToList();
+    List<MostSoldProduct> mostSold = new List<MostSoldProduct>();
+
+    foreach (var item in test)
+    {
+        mostSold.Add(new MostSoldProduct() { ItemId = item.ItemId, Total = item.Total.ToString() });
+    }
+}
+<h1>Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Product
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.UserId
+                </td>
+
+                <td>
+                    @item.Product.Name
+                </td>
+
+                <td>
+                    @item.City
+                </td>
+                <td>    
+                    @item.Address
+                </td>
+                <td>
+                    @item.Quantity
+                </td>
+
+                <td>
+                    @((item.Quantity * item.Product.Price))
+                </td></tr>
+        }
+    </tbody>
+</table>
+
+<h1>Most selled Products</h1>
+<table  class="table">
+<thead>
+<tr>
+    <th>
+        Name
+    </th>
+    <th>
+        Total
+    </th>
+</tr>
+</thead>
+<tbody>
+    @foreach (var item in mostSold)
+    {
+        <tr>
+            <td>
+                @item.ItemId
+            </td>
+
+            <td>
+                @item.Total
+            </td>
+        </tr>
+    }
+</tbody>
+</table>
+

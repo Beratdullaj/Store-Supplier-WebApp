@@ -52,6 +52,19 @@ namespace StoreSupplier.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MostSoldProducts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    ItemId = table.Column<string>(nullable: true),
+                    Total = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MostSoldProducts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pages",
                 columns: table => new
                 {
@@ -234,6 +247,38 @@ namespace StoreSupplier.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    City = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    CardNumber = table.Column<string>(nullable: false),
+                    CardValidDate = table.Column<string>(nullable: false),
+                    CVV = table.Column<string>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    MostSoldProductId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_MostSoldProducts_MostSoldProductId",
+                        column: x => x.MostSoldProductId,
+                        principalTable: "MostSoldProducts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -279,6 +324,16 @@ namespace StoreSupplier.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_MostSoldProductId",
+                table: "Orders",
+                column: "MostSoldProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ProductId",
+                table: "Orders",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
@@ -302,10 +357,10 @@ namespace StoreSupplier.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Pages");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Pages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -314,10 +369,16 @@ namespace StoreSupplier.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "MostSoldProducts");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

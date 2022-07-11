@@ -33,5 +33,10 @@ namespace StoreSupplier.Models
 
         [FileExtension]
         public IFormFile ImageUpload { get; set; }
+
+        public static implicit operator Product(int v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
